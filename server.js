@@ -8,6 +8,7 @@ const session = require('express-session');
 // Import routes and middleware
 const authRoutes = require('./routes/auth');
 const requireAuth = require('./middleware/auth');
+const productRoutes = require('./routes/products');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -56,6 +57,7 @@ app.get('/', (req, res) => {
 
 // Authentication routes
 app.use('/', authRoutes);
+app.use('/products', productRoutes);
 
 // Temporary protected dashboard
 app.get('/dashboard', requireAuth, (req, res) => {

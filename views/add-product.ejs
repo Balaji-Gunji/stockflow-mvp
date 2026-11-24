@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Product | StockFlow</title>
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/dashboard" class="brand">StockFlow</a>
+
+        <div class="nav-user">
+            <span>
+                <%= user.organization_name %>
+            </span>
+
+            <form action="/logout" method="POST">
+                <button type="submit" class="btn-logout">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/products" class="active">Products</a>
+    </nav>
+
+    <main class="container">
+
+        <div class="breadcrumb">
+            <a href="/products">Products</a> / Add Product
+        </div>
+
+        <div class="page-header">
+            <div>
+                <h1>Add Product</h1>
+                <p>Enter the details of your new product.</p>
+            </div>
+        </div>
+
+        <div class="form-card">
+
+            <% if (error) { %>
+                <div class="error-message" role="alert">
+                    <%= error %>
+                </div>
+                <% } %>
+
+                    <form action="/products/add" method="POST">
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+                                <label for="name">Product Name *</label>
+
+                                <input type="text" id="name" name="name" placeholder="Enter product name"
+                                    value="<%= product.name ?? '' %>" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sku">SKU *</label>
+
+                                <input type="text" id="sku" name="sku" placeholder="e.g. LAP001"
+                                    value="<%= product.sku ?? '' %>" required>
+
+                                <small class="field-hint">
+                                    SKU must be unique within your organization.
+                                </small>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="description">Description</label>
+
+                                <textarea id="description" name="description" rows="4"
+                                    placeholder="Enter product description"><%= product.description ?? '' %></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity *</label>
+
+                                <input type="number" id="quantity" name="quantity" min="0" step="1"
+                                    value="<%= product.quantity ?? 0 %>" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="low_stock_threshold">
+                                    Low Stock Threshold
+                                </label>
+
+                                <input type="number" id="low_stock_threshold" name="low_stock_threshold" min="0"
+                                    step="1" placeholder="Organization default"
+                                    value="<%= product.low_stock_threshold ?? '' %>">
+
+                                <small class="field-hint">
+                                    Leave empty to use your organization's default.
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cost_price">Cost Price</label>
+
+                                <input type="number" id="cost_price" name="cost_price" min="0" step="0.01"
+                                    placeholder="0.00" value="<%= product.cost_price ?? '' %>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="selling_price">Selling Price</label>
+
+                                <input type="number" id="selling_price" name="selling_price" min="0" step="0.01"
+                                    placeholder="0.00" value="<%= product.selling_price ?? '' %>">
+                            </div>
+
+                        </div>
+
+                        <div class="form-actions">
+
+                            <a href="/products" class="btn-secondary">
+                                Cancel
+                            </a>
+
+                            <button type="submit" class="btn-primary">
+                                Save Product
+                            </button>
+
+                        </div>
+
+                    </form>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
