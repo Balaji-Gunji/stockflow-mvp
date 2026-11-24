@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | StockFlow</title>
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/dashboard" class="brand">StockFlow</a>
+
+        <div class="nav-user">
+            <span>
+                <%= user.organization_name %>
+            </span>
+
+            <form action="/logout" method="POST">
+                <button type="submit" class="btn-logout">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <a href="/dashboard" class="active">Dashboard</a>
+        <a href="/products">Products</a>
+    </nav>
+
+    <main class="container">
+
+        <!-- Dashboard heading -->
+        <div class="page-header">
+            <div>
+                <h1>Inventory Dashboard</h1>
+
+                <p>
+                    Welcome to <%= user.organization_name %>.
+                        Here is your inventory overview.
+                </p>
+            </div>
+
+            <a href="/products/add" class="btn-primary">
+                + Add Product
+            </a>
+        </div>
+
+        <!-- Inventory statistics -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Total Products</h3>
+
+                <div class="stat-value">
+                    <%= stats.total_products %>
+                </div>
+
+                <p class="field-hint">
+                    Unique products in your inventory
+                </p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Quantity</h3>
+
+                <div class="stat-value">
+                    <%= stats.total_quantity %>
+                </div>
+
+                <p class="field-hint">
+                    Total units available in stock
+                </p>
+            </div>
+
+            <div class="stat-card warning">
+                <h3>Low Stock Items</h3>
+
+                <div class="stat-value">
+                    <%= stats.low_stock_count %>
+                </div>
+
+                <p class="field-hint">
+                    Products that need attention
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Low stock products section -->
+        <div class="page-header">
+            <div>
+                <h2>Low Stock Products</h2>
+
+                <p>
+                    Products at or below their stock threshold.
+                </p>
+            </div>
+
+            <a href="/products" class="btn-secondary">
+                View All Products
+            </a>
+        </div>
+
+        <div class="table-card">
+
+            <% if (lowStockProducts.length===0) { %>
+
+                <div class="empty-state">
+                    <h2>No low stock products</h2>
+
+                    <p>
+                        There are currently no products at or
+                        below their stock threshold.
+                    </p>
+
+                    <a href="/products" class="btn-primary">
+                        Manage Inventory
+                    </a>
+                </div>
+
+                <% } else { %>
+
+                    <div class="table-responsive">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>SKU</th>
+                                    <th>Quantity</th>
+                                    <th>Threshold</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <% lowStockProducts.forEach(product=> { %>
+
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                <%= product.name %>
+                                            </strong>
+                                        </td>
+
+                                        <td>
+                                            <%= product.sku %>
+                                        </td>
+
+                                        <td>
+                                            <%= product.quantity %>
+                                        </td>
+
+                                        <td>
+                                            <%= product.effective_threshold %>
+                                        </td>
+
+                                        <td>
+                                            <span class="badge badge-low">
+                                                Low Stock
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <a href="/products/edit/<%= product.id %>" class="btn-edit">
+                                                Update Stock
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <% }); %>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <% } %>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

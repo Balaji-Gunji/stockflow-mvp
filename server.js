@@ -7,8 +7,8 @@ const session = require('express-session');
 
 // Import routes and middleware
 const authRoutes = require('./routes/auth');
-const requireAuth = require('./middleware/auth');
 const productRoutes = require('./routes/products');
+const dashboardRoutes = require('./routes/dashboard');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -60,17 +60,7 @@ app.use('/', authRoutes);
 app.use('/products', productRoutes);
 
 // Temporary protected dashboard
-app.get('/dashboard', requireAuth, (req, res) => {
-    res.send(`
-        <h1>Welcome to StockFlow Dashboard</h1>
-        <p>Login successful!</p>
-
-        <form action="/logout" method="POST">
-            <button type="submit">Logout</button>
-        </form>
-    `);
-});
-
+app.use('/dashboard', dashboardRoutes);
 // Page not found
 app.use((req, res) => {
     res.status(404).send('Page not found');
