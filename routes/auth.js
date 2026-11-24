@@ -131,7 +131,7 @@ router.post('/login', async (req, res, next) => {
         if (!user || !(await bcrypt.compare(
             password, user.password_hash
         ))) {
-            return res.render('login', {
+            return res.status(401).render('login', {
                 error: 'Invalid email or password.'
             });
         }
