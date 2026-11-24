@@ -9,6 +9,7 @@ const session = require('express-session');
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
 const dashboardRoutes = require('./routes/dashboard');
+const settingsRoutes = require('./routes/settings');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -61,6 +62,7 @@ app.use('/products', productRoutes);
 
 // Temporary protected dashboard
 app.use('/dashboard', dashboardRoutes);
+app.use('/settings', settingsRoutes);
 // Page not found
 app.use((req, res) => {
     res.status(404).send('Page not found');

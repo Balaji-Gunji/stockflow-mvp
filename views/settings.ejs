@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | StockFlow</title>
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/dashboard" class="brand">StockFlow</a>
+
+        <div class="nav-user">
+            <span>
+                <%= user.organization_name %>
+            </span>
+
+            <form action="/logout" method="POST">
+                <button type="submit" class="btn-logout">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/products">Products</a>
+        <a href="/settings" class="active">Settings</a>
+    </nav>
+
+    <main class="container">
+
+        <div class="page-header">
+            <div>
+                <h1>Organization Settings</h1>
+                <p>
+                    Manage your organization's inventory preferences.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-card">
+
+            <h2 class="section-title">
+                Inventory Preferences
+            </h2>
+
+            <% if (error) { %>
+                <div class="error-message" role="alert">
+                    <%= error %>
+                </div>
+                <% } %>
+
+                    <% if (success) { %>
+                        <div class="success-message" role="status">
+                            <%= success %>
+                        </div>
+                        <% } %>
+
+                            <form action="/settings" method="POST">
+
+                                <div class="form-grid">
+
+                                    <div class="form-group full-width">
+                                        <label for="organization_name">
+                                            Organization Name
+                                        </label>
+
+                                        <input type="text" id="organization_name" value="<%= organization.name %>"
+                                            readonly>
+                                    </div>
+
+                                    <div class="form-group full-width">
+
+                                        <label for="default_threshold">
+                                            Default Low Stock Threshold
+                                        </label>
+
+                                        <input type="number" id="default_threshold" name="default_threshold" min="0"
+                                            step="1" value="<%= organization.default_threshold %>" required>
+
+                                        <p class="field-hint">
+                                            This threshold applies to products
+                                            that do not have a custom low stock
+                                            threshold.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-actions">
+
+                                    <a href="/dashboard" class="btn-secondary">
+                                        Cancel
+                                    </a>
+
+                                    <button type="submit" class="btn-primary">
+                                        Save Settings
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
